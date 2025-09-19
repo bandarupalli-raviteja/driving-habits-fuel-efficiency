@@ -1,0 +1,92 @@
+---
+title: "RESEARCH PROPOSAL"
+author: Ravi Teja Bandarupalli
+format: docx
+---
+
+```{r}
+# Load necessary libraries
+library(dagitty)
+library(ggplot2)
+library(ggdag)
+
+# Define the DAG with independent influences on mpg
+dag_code <- "
+dag {
+  disp -> mpg
+  wt -> mpg
+}
+"
+
+# Create the DAG object
+dag <- dagitty(dag_code)
+
+# Convert to ggdag object for better plotting with ggplot2
+ggdag_object <- tidy_dagitty(dag)
+
+# Plot the DAG with ggplot2 theming
+ggdag(ggdag_object) +
+  geom_dag_edges() +
+  geom_dag_node() +
+  geom_dag_text(col = "white", size = 5) +
+  theme_dag() +
+  theme(
+    plot.background = element_rect(fill = "gray95"),
+    panel.background = element_rect(fill = "gray95"),
+    panel.grid = element_blank(),
+    plot.title = element_blank(), # Removes plot title
+    axis.title = element_blank(), # Removes axis titles
+    axis.text = element_blank(), # Removes axis texts
+    axis.ticks = element_blank() # Removes axis ticks
+  )
+
+```
+
+
+```{r}
+# Load the necessary library
+library(datasets)
+
+# Load the mtcars dataset
+data(mtcars)
+
+# View the first few rows of the dataset to understand its structure
+head(mtcars)
+
+# Multiple Linear Regression Model
+# MPG as the dependent variable, weight (wt) and displacement (disp) as predictors
+model1 <- lm(mpg ~ wt, data = mtcars)
+model2 <- lm(mpg ~ disp, data = mtcars)
+model3 <- lm(mpg ~ wt + disp, data = mtcars)
+
+# Output the summary of the regression model
+summary(model1)
+summary(model2)
+summary(model3)
+
+```
+```{r}
+# Load necessary library for plotting
+library(ggplot2)
+
+# Scatter plot for mpg vs. wt with the regression line
+ggplot(mtcars, aes(x = wt, y = mpg)) +
+  geom_point() +
+  geom_smooth(method = "lm", col = "blue") +
+  ggtitle("Relationship between MPG and Vehicle Weight") +
+  xlab("Weight (1000 lbs)") +
+  ylab("Miles per Gallon")
+
+# Scatter plot for mpg vs. disp with the regression line
+ggplot(mtcars, aes(x = disp, y = mpg)) +
+  geom_point() +
+  geom_smooth(method = "lm", col = "red") +
+  ggtitle("Relationship between MPG and Engine Displacement") +
+  xlab("Displacement (cu. inches)") +
+  ylab("Miles per Gallon")
+
+```
+
+
+
+
